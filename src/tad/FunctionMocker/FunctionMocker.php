@@ -212,7 +212,6 @@ class FunctionMocker
         $callLogger = CallLoggerFactory::make($functionName);
         $verifier = CallVerifierFactory::make($request, $checker, $returnValue, $callLogger);
         self::replace_with_patchwork($functionName, $returnValue, $request, $methodName, $callLogger);
-
         return $verifier;
     }
 
@@ -229,8 +228,7 @@ class FunctionMocker
 
         $replacementFunction = self::getReplacementFunction($functionOrMethodName, $returnValue, $callLogger);
 
-        if (function_exists('\Patchwork\replace')) {
-
+        if (function_exists('\Patchwork\redefine')) {
             \Patchwork\redefine($functionName, $replacementFunction);
         }
     }

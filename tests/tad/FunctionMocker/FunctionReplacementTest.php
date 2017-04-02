@@ -108,6 +108,28 @@
 			$spy->wasCalledTimes( 0 );
 		}
 
+		/**
+		 * @test
+		 * it should allow internal php redefinitions when in conf
+		 */
+		public function it_should_allow_internal_php_redefinitions_when_in_conf() {
+			$frozen_timestamp = 0;
+
+			$ret = FunctionMocker::replace( 'time', $frozen_timestamp );
+			$ret->wasCalledOnce();
+			$this->assertEquals( $frozen_timestamp, time() );
+		}
+
+		/**
+		 * @test
+		 * it should NOT allow internal php redefinitions when conf is missing
+		 */
+		public function it_should_not_allow_internal_php_redefinitions_when_conf_missing() {
+			$this->setExpectedException( 'Patchwork\Exceptions\NotUserDefined' );
+
+			FunctionMocker::replace( 'phpinfo' );
+		}
+
 	}
 
 
